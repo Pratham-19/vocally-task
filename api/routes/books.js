@@ -20,7 +20,6 @@ router.get("/", (req, res) => {
 });
 
 //** List a book by id or name
-
 router.get("/book", (req, res) => {
   let query;
   if (req.query.id) {
@@ -50,7 +49,6 @@ router.get("/book", (req, res) => {
 });
 
 //** Add a book
-
 router.post("/addBook", (req, res) => {
   console.log(req.body);
   Book.find({ name: req.body.name })
@@ -72,7 +70,6 @@ router.post("/addBook", (req, res) => {
           //   console.log(result);
           res.status(201).json({
             message: "Book added",
-            // book: result,
           });
         })
         .catch((err) => {
@@ -80,5 +77,31 @@ router.post("/addBook", (req, res) => {
         });
     });
 });
+
+//** Delete a book by id or name
+router.delete("/deletebook", (req, res) => {
+  let query;
+  if (req.query.id) {
+    query = { _id: ObjectId(req.query.id) };
+  } else if (req.query.name) {
+    query = { name: req.query.name };
+  }
+  query
+    ? Book.remove(query)
+        .exec()
+        .then((reslut) => {
+          res.status(200).json({
+            message: "Book deleted",
+          });
+        })
+        .catch((err) => {
+          res.status(500).json(err);
+        })
+    : res.status(404).json({
+        message: "Book not found",
+      });
+});
+
+//** Update a book by id or name
 
 module.exports = router;
