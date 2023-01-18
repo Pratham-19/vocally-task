@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
+var ObjectId = require("mongodb").ObjectID;
 const Book = require("../models/books");
 
+//** List all books
 router.get("/", (req, res) => {
   Book.find()
     .exec()
@@ -16,6 +18,38 @@ router.get("/", (req, res) => {
       res.status(500).json(err);
     });
 });
+
+//** List a book by id or name
+
+router.get("/book", (req, res) => {
+  let query;
+  if (req.query.id) {
+    query = { _id: ObjectId(req.query.id) };
+  } else if (req.query.name) {
+    query = { name: req.query.name };
+  }
+  query
+    ? Book.find(query)
+        .exec()
+        .then((doc) => {
+          if (doc.length) {
+            return res.status(200).json({
+              book: doc,
+            });
+          }
+          res.status(404).json({
+            message: "No valid entry found",
+          });
+        })
+        .catch((err) => {
+          res.status(500).json(err);
+        })
+    : res.status(404).json({
+        message: "Invalid entry",
+      });
+});
+
+//** Add a book
 
 router.post("/addBook", (req, res) => {
   console.log(req.body);
@@ -35,7 +69,7 @@ router.post("/addBook", (req, res) => {
       book
         .save()
         .then((result) => {
-          console.log(result);
+          //   console.log(result);
           res.status(201).json({
             message: "Book added",
             // book: result,
