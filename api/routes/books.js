@@ -89,7 +89,12 @@ router.delete("/deletebook", (req, res) => {
   query
     ? Book.remove(query)
         .exec()
-        .then((reslut) => {
+        .then((result) => {
+          if (result.deletedCount === 0) {
+            return res.status(404).json({
+              message: "Book not found",
+            });
+          }
           res.status(200).json({
             message: "Book deleted",
           });
