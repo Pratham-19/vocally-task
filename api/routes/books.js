@@ -122,7 +122,7 @@ router.patch("/updatebook", (req, res) => {
           //   console.log(result);
           if (result.modifiedCount === 0) {
             return res.status(404).json({
-              message: "Book not found",
+              message: "Book not updated",
             });
           }
           res.status(200).json({
