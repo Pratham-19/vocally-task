@@ -108,5 +108,33 @@ router.delete("/deletebook", (req, res) => {
 });
 
 //** Update a book by id or name
+router.patch("/updatebook", (req, res) => {
+  let query;
+  if (req.query.id) {
+    query = { _id: ObjectId(req.query.id) };
+  } else if (req.query.name) {
+    query = { name: req.query.name };
+  }
+  query
+    ? Book.updateOne(query, { $set: req.body })
+        .exec()
+        .then((result) => {
+          //   console.log(result);
+          if (result.modifiedCount === 0) {
+            return res.status(404).json({
+              message: "Book not found",
+            });
+          }
+          res.status(200).json({
+            message: "Book updated",
+          });
+        })
+        .catch((err) => {
+          res.status(500).json(err);
+        })
+    : res.status(404).json({
+        message: "Book not found",
+      });
+});
 
 module.exports = router;
