@@ -206,21 +206,17 @@ router.post("/addBook", (req, res) => {
 //** Delete a book by id or name
 /**
  * @swagger
- * /books/deleteBook?name={name}:
+ * /books/deleteBook?id={id}:
  *  delete:
- *    summary: Delete the book by name
+ *    summary: Delete the book by the id
  *    tags: [Books]
  *    parameters:
  *      - in: path
- *        name: name
+ *        name: id
  *        schema:
  *          type: string
  *        required: true
- *        description: The book name
- *      content:
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/Book'
+ *        description: The book id
  *    responses:
  *      200:
  *        description: The book was deleted
@@ -235,21 +231,17 @@ router.post("/addBook", (req, res) => {
  */
 /**
  * @swagger
- * /books/deleteBook?id={id}:
+ * /books/deleteBook?name={name}:
  *  delete:
- *    summary: Delete the book by id
+ *    summary: Delete the book by name
  *    tags: [Books]
  *    parameters:
  *      - in: path
- *        name: id
+ *        name: name
  *        schema:
  *          type: string
  *        required: true
- *        description: The book id
- *      content:
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/Book'
+ *        description: The book name
  *    responses:
  *      200:
  *        description: The book was deleted
@@ -334,7 +326,7 @@ router.delete("/deleteBook", (req, res) => {
  *        schema:
  *          type: string
  *        required: true
- *        description: The book id
+ *        description: The book name
  *    requestBody:
  *      required: true
  *      content:

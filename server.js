@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const options = {
-  failOnErrors: true, // Whether or not to throw when parsing errors. Defaults to false.
+  failOnErrors: true,
   definition: {
     openapi: "3.0.0",
     info: {
