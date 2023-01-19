@@ -41,7 +41,7 @@ const Book = require("../models/books");
 
 /**
  * @swagger
- * /books:
+ * /api/books:
  *   get:
  *     summary: Returns the list of all the books
  *     tags: [Books]
@@ -57,11 +57,10 @@ const Book = require("../models/books");
  */
 
 //** List all books
-router.get("/", (req, res) => {
+router.get("/books", (req, res) => {
   Book.find()
     .exec()
     .then((docs) => {
-      //   console.log(docs);
       res.status(200).json({
         count: docs.length,
         books: docs,
@@ -75,7 +74,7 @@ router.get("/", (req, res) => {
 //** List a book by id or name
 /**
  * @swagger
- * /books/book?id={id}:
+ * /api/book?id={id}:
  *   get:
  *     summary: Get the book by id
  *     tags: [Books]
@@ -98,7 +97,7 @@ router.get("/", (req, res) => {
  */
 /**
  * @swagger
- * /books/book?name={name}:
+ * /api/book?name={name}:
  *   get:
  *     summary: Get the book by name
  *     tags: [Books]
@@ -150,7 +149,7 @@ router.get("/book", (req, res) => {
 //** Add a book
 /**
  * @swagger
- * /books/addBook:
+ * /api/addBook:
  *   post:
  *     summary: Create a new book
  *     tags: [Books]
@@ -204,7 +203,7 @@ router.post("/addBook", (req, res) => {
 //** Delete a book by id or name
 /**
  * @swagger
- * /books/deleteBook?id={id}:
+ * /api/deleteBook?id={id}:
  *  delete:
  *    summary: Delete the book by the id
  *    tags: [Books]
@@ -229,7 +228,7 @@ router.post("/addBook", (req, res) => {
  */
 /**
  * @swagger
- * /books/deleteBook?name={name}:
+ * /api/deleteBook?name={name}:
  *  delete:
  *    summary: Delete the book by name
  *    tags: [Books]
@@ -283,7 +282,7 @@ router.delete("/deleteBook", (req, res) => {
 //** Update a book by id or name
 /**
  * @swagger
- * /books/updateBook?id={id}:
+ * /api/updateBook?id={id}:
  *  patch:
  *    summary: Update the book by the id
  *    tags: [Books]
@@ -314,7 +313,7 @@ router.delete("/deleteBook", (req, res) => {
  */
 /**
  * @swagger
- * /books/updateBook?name={name}:
+ * /api/updateBook?name={name}:
  *  patch:
  *    summary: Update the book by name
  *    tags: [Books]
