@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  nodejs-app:
+    build: .
+    container_name: nodejs-app
+    hostname: nodejsapp
+    ports:
+      - "3003:3003"
+    volumes:
+      - ./app:/app
+    working_dir: /usr/src/app
+    command: node app.js
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db

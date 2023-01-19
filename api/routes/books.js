@@ -148,7 +148,6 @@ router.get("/book", (req, res) => {
 });
 
 //** Add a book
-
 /**
  * @swagger
  * /books/addBook:
@@ -192,7 +191,6 @@ router.post("/addBook", (req, res) => {
       book
         .save()
         .then((result) => {
-          //   console.log(result);
           res.status(201).json({
             message: "Book added",
           });
