@@ -44,7 +44,7 @@ app.use("/api/books/", bookRouter);
 app.use("/api/user/", userRouter);
 
 mongoose
-  .connect(`mongodb://localhost:27017/bookApi`, { useNewUrlParser: true })
+  .connect(`mongodb://mongo:27017/bookApi`, { useNewUrlParser: true })
   .then(() => {
     console.log("Connected to MongoDB!");
   })
