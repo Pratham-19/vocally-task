@@ -6,6 +6,7 @@ const rateLimit = require("express-rate-limit");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
+const cookieParser = require("cookie-parser");
 const port = process.env.PORT || 3003;
 require("dotenv").config();
 const bookRouter = require("./api/routes/books");
@@ -14,6 +15,7 @@ const userRouter = require("./api/routes/user");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(cookieParser());
 app.use(
   "/api",
   rateLimit({
@@ -42,7 +44,7 @@ app.use("/api/books/", bookRouter);
 app.use("/api/user/", userRouter);
 
 mongoose
-  .connect(`mongodb://mongo:27017/bookApi`, { useNewUrlParser: true })
+  .connect(`mongodb://localhost:27017/bookApi`, { useNewUrlParser: true })
   .then(() => {
     console.log("Connected to MongoDB!");
   })
