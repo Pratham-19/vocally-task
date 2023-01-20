@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 var ObjectId = require("mongodb").ObjectID;
+const auth = require("../middleware/auth");
 const Book = require("../models/books");
 
 /**
@@ -41,7 +42,7 @@ const Book = require("../models/books");
 
 /**
  * @swagger
- * /api/books:
+ * /api/books/:
  *   get:
  *     summary: Returns the list of all the books
  *     tags: [Books]
@@ -57,7 +58,7 @@ const Book = require("../models/books");
  */
 
 //** List all books
-router.get("/books", (req, res) => {
+router.get("/", (req, res) => {
   Book.find()
     .exec()
     .then((docs) => {
@@ -74,7 +75,7 @@ router.get("/books", (req, res) => {
 //** List a book by id or name
 /**
  * @swagger
- * /api/book?id={id}:
+ * /api/books/book?id={id}:
  *   get:
  *     summary: Get the book by id
  *     tags: [Books]
@@ -97,7 +98,7 @@ router.get("/books", (req, res) => {
  */
 /**
  * @swagger
- * /api/book?name={name}:
+ * /api/books/book?name={name}:
  *   get:
  *     summary: Get the book by name
  *     tags: [Books]
@@ -149,7 +150,7 @@ router.get("/book", (req, res) => {
 //** Add a book
 /**
  * @swagger
- * /api/addBook:
+ * /api/books/addBook:
  *   post:
  *     summary: Create a new book
  *     tags: [Books]
@@ -172,7 +173,7 @@ router.get("/book", (req, res) => {
  *         description: Some server error
  */
 
-router.post("/addBook", (req, res) => {
+router.post("/addBook", auth, (req, res) => {
   //   console.log(req.body);
   Book.find({ name: req.body.name })
     .exec()
@@ -203,7 +204,7 @@ router.post("/addBook", (req, res) => {
 //** Delete a book by id or name
 /**
  * @swagger
- * /api/deleteBook?id={id}:
+ * /api/books/deleteBook?id={id}:
  *  delete:
  *    summary: Delete the book by the id
  *    tags: [Books]
@@ -228,7 +229,7 @@ router.post("/addBook", (req, res) => {
  */
 /**
  * @swagger
- * /api/deleteBook?name={name}:
+ * /api/books/deleteBook?name={name}:
  *  delete:
  *    summary: Delete the book by name
  *    tags: [Books]
@@ -251,7 +252,7 @@ router.post("/addBook", (req, res) => {
  *      500:
  *        description: Some error happened
  */
-router.delete("/deleteBook", (req, res) => {
+router.delete("/deleteBook", auth, (req, res) => {
   let query;
   if (req.query.id) {
     query = { _id: ObjectId(req.query.id) };
@@ -282,7 +283,7 @@ router.delete("/deleteBook", (req, res) => {
 //** Update a book by id or name
 /**
  * @swagger
- * /api/updateBook?id={id}:
+ * /api/books/updateBook?id={id}:
  *  patch:
  *    summary: Update the book by the id
  *    tags: [Books]
@@ -313,7 +314,7 @@ router.delete("/deleteBook", (req, res) => {
  */
 /**
  * @swagger
- * /api/updateBook?name={name}:
+ * /api/books/updateBook?name={name}:
  *  patch:
  *    summary: Update the book by name
  *    tags: [Books]
@@ -342,7 +343,7 @@ router.delete("/deleteBook", (req, res) => {
  *      500:
  *        description: Some error happened
  */
-router.patch("/updateBook", (req, res) => {
+router.patch("/updateBook", auth, (req, res) => {
   let query;
   if (req.query.id) {
     query = { _id: ObjectId(req.query.id) };

@@ -9,6 +9,7 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const port = process.env.PORT || 3003;
 require("dotenv").config();
 const bookRouter = require("./api/routes/books");
+const userRouter = require("./api/routes/user");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -37,7 +38,8 @@ const options = {
 const swaggerDocs = swaggerJsDoc(options);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.use("/api", bookRouter);
+app.use("/api/books/", bookRouter);
+app.use("/api/user/", userRouter);
 
 mongoose
   .connect(`mongodb://mongo:27017/bookApi`, { useNewUrlParser: true })
